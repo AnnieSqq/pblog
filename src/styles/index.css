@@ -1,0 +1,31 @@
+body,
+html,
+#app {
+  margin: 0;
+  padding: 0;
+}
+.full_card_head > .el-card__header {
+  padding: 0;
+}
+/* 文字居中类 */
+.text_center {
+  text-align: center;
+}
+/* 链接 */
+a {
+  text-decoration: none;
+  color: #393939;
+  font-size: 13px;
+}
+/* 文字提示 */
+.beauty_tooltip.is-light {
+  padding: 0;
+  border: none;
+  background-color: #f0cfa07a;
+  line-height: 20px;
+  width: 100px;
+}
+/* 滚动条 */
+#sideBar .el-scrollbar__wrap {
+  overflow-x: hidden;
+}
