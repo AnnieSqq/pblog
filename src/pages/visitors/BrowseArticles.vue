@@ -2,26 +2,42 @@
   <div>
     <el-card class="full_card_head">
       <!-- 卡片头 -->
-      <div slot="header" class="browse_head">
-        <el-row type="flex" align="middle">
+      <div
+        slot="header"
+        class="browse_head"
+      >
+        <el-row
+          type="flex"
+          align="middle"
+        >
           <el-col :span="6">浏览文章</el-col>
           <!-- <el-col :span="6"></el-col> -->
-          <el-col :span="6" :offset="12">
+          <el-col
+            :span="6"
+            :offset="12"
+          >
             <el-input
               placeholder="请输入搜索内容"
               v-model="queryInfo.content"
               size="mini"
               clearable
             >
-              <el-button slot="append" icon="el-icon-search"></el-button>
+              <el-button
+                slot="append"
+                icon="el-icon-search"
+              ></el-button>
             </el-input>
           </el-col>
         </el-row>
       </div>
       <!-- 卡片体 -->
       <div ref="articleCategoryRef">
-        <div v-for="(items, indexs) in articles" :key="indexs">
+        <div
+          v-for="(items, indexs) in articles"
+          :key="indexs"
+        >
           <div class="category_tags">{{ items.category }}</div>
+          <p v-if="items.data.length == 0">暂无</p>
           <div
             v-for="(item, index) in items.data"
             :key="index"
@@ -30,6 +46,7 @@
             <span @click="handleArticleClick(item.id)">
               {{ item.title }}
             </span>
+
             <div class="article_info">
               <span>{{ item.reader_num }}人看过</span>
               <span>{{ item.like_num }}人点赞</span>
@@ -75,7 +92,7 @@ export default {
     getGuild() {
       this.guild = []
       const nodes = this.$refs.articleCategoryRef.children
-      nodes.forEach(item => {
+      nodes.forEach((item) => {
         this.guild.push({
           level: 1,
           site: getTop(item.children[0]) - 50 - 10,

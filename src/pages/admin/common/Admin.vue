@@ -107,16 +107,11 @@ export default {
       activeMenuItem: ''
     }
   },
-  methods: {
-    // 获取分类列表
-    async getCategories() {
-      this.$store.dispatch('setCategoryDataAsync')
-    }
-  },
+  methods: {},
   mounted() {
     this.activeMenuItem = this.$route.path
     // 在admin组件挂载时拉取分类列表
-    this.getCategories()
+    this.$store.dispatch('setCategoryDataAsync')
   },
   watch: {
     $route(to, from) {

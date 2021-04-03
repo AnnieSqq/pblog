@@ -13,7 +13,7 @@
     </el-card>
     <el-card shadow="never">
       <h3>评论</h3>
-      <v-comment-pad :comments="comments"></v-comment-pad>
+      <v-comment-pad :article-id="article.id"></v-comment-pad>
     </el-card>
     <!-- 评论板弹出按钮 -->
     <el-button
@@ -25,7 +25,7 @@
     ></el-button>
     <!-- 隐藏区域 -->
     <el-dialog title="评论板" :visible.sync="commentVisible" width="60%">
-      <v-comment-pad :comments="comments"></v-comment-pad>
+      <v-comment-pad :article-id="article.id"></v-comment-pad>
     </el-dialog>
   </div>
 </template>
@@ -48,38 +48,6 @@ export default {
         collect_num: '5',
         content: ''
       },
-      // 评论
-      comments: {
-        page: 1,
-        data: [
-          {
-            id: '31324',
-            visitor_name: '小魔仙8号',
-            content: '好棒啊加油',
-            release_time: '2021-1-25',
-            reply: null
-          },
-          {
-            id: '6582',
-            visitor_name: '喜羊羊5号',
-            content: '我觉得这篇文章写得不好',
-            release_time: '2021-1-28',
-            reply: null
-          },
-          {
-            id: '15346',
-            visitor_name: '猪猪侠3号',
-            content: '瞎说，这篇文章写得很详细，不错的',
-            release_time: '2021-2-1',
-            reply: {
-              id: '6582',
-              visitor_name: '喜羊羊5号',
-              content: '我觉得这篇文章写得不好',
-              release_time: '2021-2-1'
-            }
-          }
-        ]
-      },
       commentInput: '',
       // 文章内容渲染后
       contentRendered: '',
@@ -94,7 +62,7 @@ export default {
     }
   },
   components: { vCommentPad },
-  created() {
+  mounted() {
     this.getMd()
   },
   updated() {

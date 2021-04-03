@@ -7,7 +7,10 @@
       ref="articleFormRef"
       label-width="80px"
     >
-      <el-form-item label="文章标题" prop="title">
+      <el-form-item
+        label="文章标题"
+        prop="title"
+      >
         <el-input v-model="articleForm.title"></el-input>
       </el-form-item>
       <el-form-item label="文章分类">
@@ -19,11 +22,31 @@
             :value="item.id"
           ></el-option>
         </el-select>
+        <el-button
+          type="primary"
+          @click="categoryVisible = true"
+        >
+          管理分类
+        </el-button>
       </el-form-item>
-      <mavon-editor v-model="articleForm.content" @save="saveArticle" />
+      <mavon-editor
+        v-model="articleForm.content"
+        @save="saveArticle"
+      />
     </el-form>
-    <hr />
-    <v-article-category></v-article-category>
+    <!-- 文章分类板 -->
+    <el-dialog
+      title="文章分类"
+      :visible.sync="categoryVisible"
+      width="600px"
+    >
+      <div>
+        <v-article-category></v-article-category>
+      </div>
+      <div slot="footer">
+        <el-button @click="categoryVisible = false">返回</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -47,7 +70,9 @@ export default {
         title: [
           { required: true, message: '文章标题不能为空', trigger: 'blur' }
         ]
-      }
+      },
+      // 分类板是否显示
+      categoryVisible: false
     }
   },
   computed: {

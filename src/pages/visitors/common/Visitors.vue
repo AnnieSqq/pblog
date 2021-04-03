@@ -59,8 +59,9 @@
 <script>
 import vPageGuild from '@/components/visitors/PageGuild.vue'
 import vPageIntro from '@/components/visitors/PageIntro.vue'
+import { getVisitorToken } from '@/utils'
 export default {
-  data () {
+  data() {
     return {
       // 侧栏按钮
       sideBtnActive: 'intro',
@@ -75,7 +76,7 @@ export default {
   components: { vPageGuild, vPageIntro },
   methods: {
     // 初始化样式
-    initStyle () {
+    initStyle() {
       // 页头样式
       const header = document.querySelector('#header')
       header.style.height = this.headerHeight + 'px'
@@ -89,7 +90,7 @@ export default {
       main.style.paddingTop = this.headerHeight + 'px'
     },
     // 当滚动鼠标时的处理函数
-    handleScroll () {
+    handleScroll() {
       // 首先获取滚动条与上端的巨鹿，也就是滚动区域滚动的距离
       const scrollTop =
         window.pageYOffset ||
@@ -105,7 +106,7 @@ export default {
         scrollTop + document.documentElement.clientHeight - 200 - 50 + 'px'
     },
     // 当窗口大小改变的处理函数
-    handleResize () {
+    handleResize() {
       const sideBar = document.querySelector('#sideBar')
       const fixedBtns = document.querySelector('#fixed_btns')
       sideBar.style.height =
@@ -123,12 +124,16 @@ export default {
         'px'
     },
     // 回到顶部
-    handleBackTop () {
+    handleBackTop() {
       window.scrollTo(0, 0)
     }
   },
-  created () {},
-  mounted () {
+  created() {},
+  mounted() {
+    // 获取游客信息
+    if (getVisitorToken) {
+      this.$store.dispatch('setVisitorInfoAsync')
+    }
     // 初始化样式
     this.initStyle()
     // 初始化侧栏位置
@@ -138,7 +143,7 @@ export default {
     this.handleResize()
     window.addEventListener('resize', this.handleResize)
   },
-  destroyed () {
+  destroyed() {
     // 销毁页面时清除监听器
     window.removeEventListener('scroll', this.handleScroll)
     window.removeEventListener('resize', this.handleResize)
@@ -231,5 +236,4 @@ export default {
   width: 40px;
   height: 200px;
 }
-
 </style>

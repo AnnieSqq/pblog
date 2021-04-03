@@ -9,3 +9,15 @@ export function getTop(e) {
   }
   return offset
 }
+/**
+ * 获取游客token
+ */
+export function getVisitorToken() {
+  return window.sessionStorage.getItem('visitortoken')
+}
+/**
+ * 保存游客token
+ */
+export function setVisitorToken(token) {
+  window.sessionStorage.setItem('visitortoken', token)
+}
