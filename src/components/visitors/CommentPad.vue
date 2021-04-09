@@ -24,7 +24,9 @@
             style="cursor: pointer"
             >回复
           </span>
-          <span @click="removeComment(item.id)" style="cursor: pointer"
+          <span
+            @click="removeComment(item.id, item.visitor_id)"
+            style="cursor: pointer"
             >删除</span
           >
         </div>
@@ -57,7 +59,7 @@
         {{ comments[commentInfo.reply_index].content }}
       </span>
       <br />
-      <span @click="handleReplyChange(-1, null)" style="cursor: pointer"
+      <span @click="handleReplyChange(-1, undefined)" style="cursor: pointer"
         >取消</span
       >
     </div>
@@ -69,6 +71,7 @@ import {
   commentDelete,
   getComments
 } from '@/api/visitors/readArticle.js'
+import { getLeavewords } from '@/api/visitors/browseArticles.js'
 export default {
   data() {
     return {
@@ -104,7 +107,7 @@ export default {
       commentInfo: {
         content: '',
         reply_index: -1,
-        reply: null
+        reply: undefined
       }
     }
   },
@@ -112,7 +115,15 @@ export default {
   methods: {
     // 获取对应文章的评论
     async getComments() {
-      const res = await getComments(this.articleId)
+      let res
+      // 如果id匹配，那就是获取评论
+      if (this.articleId === '_1') {
+        res = await getLeavewords()
+      } else if (this.articleId.match(/^[0-9a-fA-F]{24}$/)) {
+        res = await getComments(this.articleId)
+      } else {
+        return this.$message.info('评论所属错误')
+      }
       if (res.code !== '200') return
       this.comments = res.data
     },
@@ -121,14 +132,16 @@ export default {
       if (this.commentInfo.content.trim() === '') {
         return this.$message.info('评论内容不能为空')
       }
-      const res = await comment({
+      const commentObj = {
         visitor: this.$store.state.visitorInfo
           ? this.$store.state.visitorInfo.id
           : null,
-        article: this.articleId,
+        article: this.articleId === '_1' ? undefined : this.articleId,
         content: this.commentInfo.content,
+        action: this.articleId === '_1' ? 'leaveword' : 'comment',
         reply: this.commentInfo.reply
-      })
+      }
+      const res = await comment(commentObj)
       if (res.code !== '200') return
       this.$message.success(res.msg)
       // 评论提交信息清空
@@ -145,17 +158,21 @@ export default {
       this.commentInfo.reply = reply
     },
     // 删除评论
-    async removeComment(id) {
-      const res = await commentDelete(id)
+    async removeComment(id, owner) {
+      const res = await commentDelete({
+        id: id,
+        visitor: this.$store.state.visitorInfo
+          ? this.$store.state.visitorInfo.id
+          : null,
+        owner
+      })
       if (res.code !== '200') return
       this.getComments()
       this.$message.success(res.msg)
     }
   },
   mounted() {
-    if (this.articleId.match(/^[0-9a-fA-F]{24}$/)) {
-      this.getComments()
-    }
+    this.getComments()
   },
   watch: {
     // 当文章id 更新时再获取评论信息，否则获取到的是旧的信息

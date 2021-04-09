@@ -33,7 +33,7 @@
     </el-drawer>
     <!-- 留言板 -->
     <el-dialog title="留言板" :visible.sync="leaveMsgVisible" width="60%">
-      <v-comment-pad :comments="leaveMsgs"></v-comment-pad>
+      <v-comment-pad :articleId="'_1'"></v-comment-pad>
     </el-dialog>
   </div>
 </template>
