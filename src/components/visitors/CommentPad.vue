@@ -122,7 +122,7 @@ export default {
       } else if (this.articleId.match(/^[0-9a-fA-F]{24}$/)) {
         res = await getComments(this.articleId)
       } else {
-        return this.$message.info('评论所属错误')
+        return
       }
       if (res.code !== '200') return
       this.comments = res.data

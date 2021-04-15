@@ -29,6 +29,7 @@
           </el-submenu>
         </el-menu>
         <el-button type="primary" @click="$router.push('/')">返回</el-button>
+        <el-button type="primary" @click="logout">退登</el-button>
       </el-aside>
       <!-- 主体 -->
       <el-main style="background-color: #eee">
@@ -39,6 +40,7 @@
 </template>
 
 <script>
+import { loginGuard, storage } from '@/utils'
 export default {
   data() {
     return {
@@ -107,11 +109,27 @@ export default {
       activeMenuItem: ''
     }
   },
-  methods: {},
+  methods: {
+    logout() {
+      storage.removeItem('admintoken')
+      this.$router.go(0)
+    }
+  },
+  created() {
+    // 登录拦截
+    // if (!loginGuard()) {
+    //   this.$router.push('/admin/login')
+    // }
+  },
   mounted() {
     this.activeMenuItem = this.$route.path
     // 在admin组件挂载时拉取分类列表
     this.$store.dispatch('setCategoryDataAsync')
+  },
+  async updated() {
+    if (!await loginGuard()) {
+      this.$router.push('/admin/login')
+    }
   },
   watch: {
     $route(to, from) {

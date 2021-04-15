@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { getCategoryList } from '@/api/admin/articleManager'
 import { getVisitor } from '@/api/visitors/all.js'
+import { getAdminInfo } from '@/api/admin/all.js'
 Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
@@ -13,7 +14,9 @@ export default new Vuex.Store({
     editingArticle: '',
 
     // 文章分类
-    categoryData: []
+    categoryData: [],
+    // 管理员用户信息
+    adminInfo: {}
   },
   mutations: {
     setGuildData(state, data) {
@@ -27,6 +30,9 @@ export default new Vuex.Store({
     },
     setVisitorInfo(state, data) {
       state.visitorInfo = data
+    },
+    setAdminInfo(state, data) {
+      state.adminInfo = data
     }
   },
   actions: {
@@ -40,6 +46,10 @@ export default new Vuex.Store({
     async setVisitorInfoAsync(context, data) {
       const res = await getVisitor()
       context.commit('setVisitorInfo', res.data)
+    },
+    async setAdminInfoAsync(context, data) {
+      const res = await getAdminInfo()
+      context.commit('setAdminInfo', res.data)
     }
   },
   getters: {

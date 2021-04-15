@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import Visitors from '../pages/visitors/common/Visitors.vue'
 import Admin from '../pages/admin/common/Admin.vue'
+import Login from '../pages/admin/common/Login.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -84,6 +85,11 @@ const routes = [
         component: () => import('../pages/admin/configManager/VisitorsConfig.vue')
       }
     ]
+  },
+  // 登录
+  {
+    path: '/admin/login',
+    component: Login
   }
 ]
 

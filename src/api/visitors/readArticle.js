@@ -29,3 +29,9 @@ export async function commentDelete({ id, visitor, owner }) {
 export async function like(like) {
   return await http.post('/visitor/interact/like', like)
 }
+/**
+ * 收藏/取消收藏
+ */
+export async function collect(collect) {
+  return await http.post('/visitor/interact/collect', collect)
+}

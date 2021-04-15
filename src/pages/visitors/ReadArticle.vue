@@ -25,6 +25,15 @@
       icon="el-icon-thumb"
       @click="thumb"
       class="fixed_btn"
+      :style="{ bottom: footerHeight + 90 + 'px' }"
+    ></el-button>
+    <!-- 收藏按钮 -->
+    <el-button
+      type="warning"
+      circle
+      icon="el-icon-star-off"
+      @click="collect"
+      class="fixed_btn"
       :style="{ bottom: footerHeight + 45 + 'px' }"
     ></el-button>
     <!-- 评论板弹出按钮 -->
@@ -47,7 +56,7 @@
 import vCommentPad from '@/components/visitors/CommentPad.vue'
 import { getTop } from '@/utils'
 import { getArticleById } from '@/api/common'
-import { like } from '@/api/visitors/readArticle'
+import { like, collect } from '@/api/visitors/readArticle'
 export default {
   data() {
     return {
@@ -113,6 +122,17 @@ export default {
     // 点赞/取消赞
     async thumb() {
       const res = await like({
+        article: this.article.id,
+        visitor: this.$store.state.visitorInfo
+          ? this.$store.state.visitorInfo.id
+          : null
+      })
+      if (res.code !== '200') return
+      this.$message.success(res.msg)
+    },
+    // 收藏/取消收藏
+    async collect() {
+      const res = await collect({
         article: this.article.id,
         visitor: this.$store.state.visitorInfo
           ? this.$store.state.visitorInfo.id
