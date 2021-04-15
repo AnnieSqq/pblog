@@ -1,14 +1,26 @@
 <template>
   <div>
-    <el-form ref="loginFormRef" :model="loginForm" label-width="80px">
-      <el-form-item label="用户名">
-        <el-input v-model="loginForm.username"></el-input>
-      </el-form-item>
-      <el-form-item label="密码">
-        <el-input v-model="loginForm.password"></el-input>
-      </el-form-item>
-    </el-form>
-    <el-button type="primary" @click="loginCheck">登录</el-button>
+    <el-card class="login_card">
+      <div slot="header">管理员登录</div>
+      <div>
+        <el-form ref="loginFormRef" :model="loginForm" label-width="80px">
+          <el-form-item label="用户名">
+            <el-input v-model="loginForm.username"></el-input>
+          </el-form-item>
+          <el-form-item label="密码">
+            <el-input v-model="loginForm.password"></el-input>
+          </el-form-item>
+        </el-form>
+        <el-row>
+            <el-col :span="4" :offset="16">
+                <el-button type="info" @click="$router.push('/')">返回</el-button>
+            </el-col>
+          <el-col :span="4">
+            <el-button type="primary" @click="loginCheck">登录</el-button>
+          </el-col>
+        </el-row>
+      </div>
+    </el-card>
   </div>
 </template>
 
@@ -43,3 +55,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+.login_card {
+  width: 600px;
+  margin: 100px auto 0 auto;
+}
+</style>
