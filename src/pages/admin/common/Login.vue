@@ -17,8 +17,10 @@
             </el-col>
           <el-col :span="4">
             <el-button type="primary" @click="loginCheck">登录</el-button>
+
           </el-col>
         </el-row>
+
       </div>
     </el-card>
   </div>
