@@ -2,8 +2,8 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 import { register } from '@/api/visitors/all.js'
 import { getVisitorToken } from '@/utils'
-axios.defaults.baseURL = 'http://api.pblog.anniesqq.com'
-// axios.defaults.baseURL = 'http://localhost:3000'
+// axios.defaults.baseURL = 'http://api.pblog.anniesqq.com'
+axios.defaults.baseURL = 'http://localhost:3000'
 // 请求拦截器
 axios.interceptors.request.use(
   async (config) => {

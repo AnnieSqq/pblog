@@ -21,10 +21,12 @@
               v-model="queryInfo.content"
               size="mini"
               clearable
+              @clear="search"
             >
               <el-button
                 slot="append"
                 icon="el-icon-search"
+                @click="search"
               ></el-button>
             </el-input>
           </el-col>
@@ -84,7 +86,7 @@ export default {
   methods: {
     // 获取文章数据
     async getArticles() {
-      const res = await getCateArtiList()
+      const res = await getCateArtiList(this.queryInfo)
       if (res.code !== '200') return
       this.articles = res.data
     },
@@ -106,6 +108,12 @@ export default {
         path: '/read_articles',
         query: { id }
       })
+    },
+    // 搜索
+    search() {
+      this.getArticles()
+      this.getGuild()
+      this.$store.dispatch('setGuildDataAsync', this.guild)
     }
   },
   updated() {

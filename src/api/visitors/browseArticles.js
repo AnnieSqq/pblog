@@ -5,8 +5,12 @@ import http from '@/utils/http'
  * @returns
  */
 export async function getCateArtiList(query) {
-  return await http.get('/visitor/browse/articles')
+  return await http.get('/visitor/browse/articles', { params: query })
 }
+/**
+ * 获取文章归档
+ * @returns
+ */
 export async function getArchive() {
   return await http.get('/visitor/browse/timeline')
 }
