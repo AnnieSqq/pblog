@@ -6,7 +6,7 @@
         <el-row>
           <el-col :span="18">{{ article.title }}</el-col>
           <el-col :span="6" style="text-align: right">
-            <a href="#" @click="$router.go(-1)">返回＞</a>
+            <a href="#" @click="$router.push('/')">返回＞</a>
           </el-col>
         </el-row>
       </div>
@@ -140,6 +140,14 @@ export default {
       })
       if (res.code !== '200') return
       this.$message.success(res.msg)
+    }
+  },
+  watch: {
+    // 监听路由变化，以应对文章切换
+    $route(to, from) {
+      this.getMd()
+      this.getGuild()
+      this.$store.dispatch('setGuildDataAsync', this.guild)
     }
   }
 }

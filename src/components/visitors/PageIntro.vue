@@ -26,7 +26,9 @@
             :key="index"
             :timestamp="item.release_time"
           >
-            <el-button type="primary" @click="handleArchiveClick(item.id)">{{ item.title }}</el-button>
+            <el-button type="primary" @click="handleArchiveClick(item.id)">{{
+              item.title
+            }}</el-button>
           </el-timeline-item>
         </el-timeline>
       </div>
@@ -40,8 +42,9 @@
 
 <script>
 import vCommentPad from '@/components/visitors/CommentPad.vue'
+import { getArchive } from '@/api/visitors/browseArticles.js'
 export default {
-  data () {
+  data() {
     return {
       // 归档是否可见
       archiveVisible: false,
@@ -50,7 +53,7 @@ export default {
       // 作者简介
       authorIntro: {
         avatar: '/logo.png',
-        hobby: '和平精英，云顶之弈，乒乓球，吃，购物',
+        hobby: '敲代码，和平精英，云顶之弈，乒乓球，吃，购物',
         motto: '水是生命之源'
       },
       // 留言内容
@@ -59,40 +62,27 @@ export default {
         data: []
       },
       // 文章归档
-      articleArchive: [
-        {
-          id: '454',
-          release_time: '2021-2-1',
-          title: '锤石才能玩IC能维持1'
-        },
-        {
-          id: '454',
-          release_time: '2021-2-1',
-          title: '锤石才能玩IC能维持'
-        },
-        {
-          id: '454',
-          release_time: '2021-2-1',
-          title: '锤石才能玩IC能维持'
-        },
-        {
-          id: '454',
-          release_time: '2021-2-1',
-          title: '锤石才能玩IC能维持'
-        },
-        {
-          id: '454',
-          release_time: '2021-2-1',
-          title: '锤石才能玩IC能维持'
-        }
-      ]
+      articleArchive: []
     }
   },
   components: { vCommentPad },
   methods: {
-    handleArchiveClick (id) {
-      console.log(id)
+    handleArchiveClick(id) {
+      // console.log(id)
+      this.$router.push({
+        path: '/read_articles',
+        query: { id }
+      })
+    },
+    async getArticleArchive() {
+      const res = await getArchive()
+      if (res.code === '200') {
+        this.articleArchive = res.data
+      }
     }
+  },
+  created() {
+    this.getArticleArchive()
   }
 }
 </script>

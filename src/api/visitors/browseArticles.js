@@ -7,6 +7,9 @@ import http from '@/utils/http'
 export async function getCateArtiList(query) {
   return await http.get('/visitor/browse/articles')
 }
+export async function getArchive() {
+  return await http.get('/visitor/browse/timeline')
+}
 /**
  * 获取网站留言
  */
