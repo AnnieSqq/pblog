@@ -52,8 +52,7 @@
 
 <script>
 import vArticleCategory from '@/components/admin/ArticleCategory.vue'
-import { updateArticle, createArticle } from '@/api/admin/articleManager'
-import { getArticleById } from '@/api/common'
+import { getArticleById, updateArticle, createArticle } from '@/api/admin/articleManager'
 import { mapState } from 'vuex'
 export default {
   data() {
@@ -63,7 +62,8 @@ export default {
         id: '',
         title: '',
         category: '0',
-        content: ''
+        content: '',
+        word_count: 0
       },
       // 文章表单验证
       articleFormRules: {
@@ -82,6 +82,7 @@ export default {
   methods: {
     // 保存文章
     saveArticle() {
+      this.articleForm.word_count = this.articleForm.content.length
       this.$refs.articleFormRef.validate(async valid => {
         if (valid) {
           if (this.articleForm.id) {

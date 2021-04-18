@@ -3,7 +3,7 @@
     <!-- 页头 -->
     <div id="header" class="fixed_header">
       <el-row>
-        <el-col :span="3">LOGO</el-col>
+        <el-col :span="3">SQQ</el-col>
         <el-col :span="3" :offset="18">
           <span @click="$router.push('/admin')">登录后台</span>
         </el-col>

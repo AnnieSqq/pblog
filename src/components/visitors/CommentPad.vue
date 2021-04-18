@@ -38,7 +38,14 @@
     <!-- 分页与提交 -->
     <el-row style="padding: 10px">
       <el-col :span="12">
-        <el-pagination layout="prev, pager, next" :total="50"> </el-pagination>
+        <el-pagination
+          layout="prev, pager, next"
+          :current-page.sync="pagination.page"
+          :page-size="pagination.size"
+          :total="pagination.total"
+          @current-change="getComments"
+        >
+        </el-pagination>
       </el-col>
       <el-col :span="12" style="text-align: right">
         <el-button type="primary" @click="commitComment"> 发表 </el-button>
@@ -49,7 +56,11 @@
       v-model="commentInfo.content"
       type="textarea"
       :autosize="{ minRows: 2, maxRows: 3 }"
-      placeholder="对这篇文章发表一些看法吧！"
+      :placeholder="
+        this.articleId === '_1'
+          ? '留下你的足迹吧！'
+          : '对这篇文章发表一些看法吧！'
+      "
     ></el-input>
     <div v-if="commentInfo.reply" class="reply_show">
       回复 {{ comments[commentInfo.reply_index].visitor_name }}
@@ -76,34 +87,10 @@ export default {
   data() {
     return {
       // 评论
-      comments: [
-        {
-          id: '31324',
-          visitor_name: '小魔仙8号',
-          content: '好棒啊加油',
-          release_time: '2021-1-25',
-          reply: null
-        },
-        {
-          id: '6582',
-          visitor_name: '喜羊羊5号',
-          content: '我觉得这篇文章写得不好',
-          release_time: '2021-1-28',
-          reply: null
-        },
-        {
-          id: '15346',
-          visitor_name: '猪猪侠3号',
-          content: '瞎说，这篇文章写得很详细，不错的',
-          release_time: '2021-2-1',
-          reply: {
-            id: '6582',
-            visitor_name: '喜羊羊5号',
-            content: '我觉得这篇文章写得不好',
-            release_time: '2021-2-1'
-          }
-        }
-      ],
+      comments: [],
+      pagination: {
+        page: 1
+      },
       commentInfo: {
         content: '',
         reply_index: -1,
@@ -120,12 +107,20 @@ export default {
       if (this.articleId === '_1') {
         res = await getLeavewords()
       } else if (this.articleId.match(/^[0-9a-fA-F]{24}$/)) {
-        res = await getComments(this.articleId)
+        res = await getComments(this.articleId, this.pagination.page)
       } else {
         return
       }
       if (res.code !== '200') return
-      this.comments = res.data
+      this.comments = res.data.comments
+      // 获取分页信息
+      this.pagination = {
+        page: res.data.page,
+        size: res.data.size,
+        total: res.data.total,
+        pages: res.data.pages,
+        display: res.data.display
+      }
     },
     // 发表评论
     async commitComment() {
@@ -148,7 +143,7 @@ export default {
       this.commentInfo = {
         content: '',
         reply_index: -1,
-        reply: null
+        reply: undefined
       }
       this.getComments()
     },
@@ -164,7 +159,8 @@ export default {
         visitor: this.$store.state.visitorInfo
           ? this.$store.state.visitorInfo.id
           : null,
-        owner
+        owner,
+        article: this.articleId
       })
       if (res.code !== '200') return
       this.getComments()

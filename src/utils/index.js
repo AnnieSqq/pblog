@@ -5,7 +5,7 @@ import { Message } from 'element-ui'
 /**
  * 将storage也导出
  */
-export const storage = window.sessionStorage
+export const storage = window.localStorage
 
 /**
  * 获取元素与页框顶的距离

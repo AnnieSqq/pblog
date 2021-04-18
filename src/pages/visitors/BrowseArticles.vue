@@ -50,7 +50,7 @@
             </span>
 
             <div class="article_info">
-              <span>{{ item.reader_num }}人看过</span>
+              <span>{{ item.reader_num }}人次看过</span>
               <span>{{ item.like_num }}人点赞</span>
               <span>{{ item.comment_num }}条评论</span>
               <span>{{ item.collect_num }}人收藏</span>

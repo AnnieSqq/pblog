@@ -55,8 +55,7 @@
 <script>
 import vCommentPad from '@/components/visitors/CommentPad.vue'
 import { getTop } from '@/utils'
-import { getArticleById } from '@/api/common'
-import { like, collect } from '@/api/visitors/readArticle'
+import { getArticleById, like, collect } from '@/api/visitors/readArticle'
 export default {
   data() {
     return {

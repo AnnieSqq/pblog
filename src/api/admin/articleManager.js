@@ -6,6 +6,12 @@ export async function getArticleList(query) {
   return await http.get('/admin/article')
 }
 /**
+ * 通过id获取文章
+ */
+export async function getArticleById(id) {
+  return await http.get('/admin/article/' + id)
+}
+/**
  * 新建文章
  */
 export async function createArticle(article) {
